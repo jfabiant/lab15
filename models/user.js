@@ -12,7 +12,7 @@ var user_schema = new Schema({
     profile_pic: String
 });
 
-var user_model = mongoose.model('user', user_schema, 'users');
+user_model = mongoose.model('user', user_schema, 'users');
 
 module.exports = {
     create: function (data, callback) {
