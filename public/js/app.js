@@ -19,8 +19,7 @@ $(document).ready(function () {
             $("#first_name").focus();
             return alert("Debe ingreser un nombre!");
         }
-        socket.emit('crear', function (data) {
-        });
+        socket.emit('crear', data);
         $('#formulario').trigger('reset');
         return true;
     });
@@ -30,9 +29,6 @@ $(document).ready(function () {
     });
 
     var fill = function (data) {
-        console.log("************************");
-        console.log("************************");
-        console.log(data);
         var $row = $('<tr id="' + data._id + '">');
         $row.append('<td>' + data.first_name + '</td>');
         $row.append('<td>' + data.last_name + '</td>');
