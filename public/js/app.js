@@ -1,6 +1,5 @@
 $(document).ready(function () {
     var socket = io();
-
     $('#formulario').submit(function (e) {
         e.preventDefault();
         var data = {
@@ -41,13 +40,18 @@ $(document).ready(function () {
     });
 
     socket.on('actualizar', function (data) {
+        console.log("LLEGO AL APP JS");
         fill(data);
-        user.upate(data);
+    });
+
+    socket.on('borrado', (data)=>{
+        $("#"+data).remove();
     });
 
     var fill = function (data) {
         if ($('#' + data._id).length == 0) {
             var $row = $('<tr id="' + data._id + '">');
+            $row.append('<td>' + data._id + '</td>');
             $row.append('<td>' + data.first_name + '</td>');
             $row.append('<td>' + data.last_name + '</td>');
             $row.append('<td>' + data.timezone + '</td>');
@@ -57,7 +61,7 @@ $(document).ready(function () {
             $row.append('<td><button class="btn btn-danger btn-sm" name="btnEli">Eliminar</button></td>');
             $row.data('data', data);
             $row.find('[name=btnAct]').click(() => {
-                var data = $(this).closest('tr').data('data');
+                // var data = $(this).closest('tr').data('data');
                 $('#_id').val(data._id);
                 $('#first_name').val(data.first_name);
                 $('#last_name').val(data.last_name);
@@ -67,15 +71,28 @@ $(document).ready(function () {
                 $('.warning').removeClass('warning');
                 $(this).closest('tr').addClass('warning');
             });
+
+            // $row.find('[name=btnEli]').click(() => {
+            //     // var data = $(this).closest('tr').data('data');
+            //     $('#_id').val(data._id);
+            //     $('#first_name').val(data.first_name);
+            //     $('#last_name').val(data.last_name);
+            //     $('#timezone').val(data.timezone);
+            //     $('#locale').val(data.locale);
+            //     $('#profile_pic').val(data.profile_pic);
+            //     $('.warning').removeClass('warning');
+            //     $(this).closest('tr').addClass('warning');
+            // });
+
             $('table tbody').append($row);
 
         } else {
             var $row = $('#' + data._id);
-            $row.find('td::eq(1)').html(data.first_name);
-            $row.find('td::eq(2)').html(data.last_name);
-            $row.find('td::eq(3)').html(data.timezone);
-            $row.find('td::eq(4)').html(data.locale);
-            $row.find('td::eq(5)').html(data.profile_pic);
+            $row.find('td:eq(1)').html(data.first_name);
+            $row.find('td:eq(2)').html(data.last_name);
+            $row.find('td:eq(3)').html(data.timezone);
+            $row.find('td:eq(4)').html(data.locale);
+            $row.find('td:eq(5)').html(data.profile_pic);
 
         }
     };

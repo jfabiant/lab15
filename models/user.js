@@ -46,5 +46,15 @@ module.exports = {
             item.save();
             callback(item);
         });
+    },
+    delete: (_id, callback) => {
+        console.log("Id in funciton delete");
+        console.log(_id);
+        
+        user_model.findOne({ _id: _id }, (err, post) => {
+            if (err) throw err;
+            post.remove();
+            callback(_id);
+        });
     }
 };

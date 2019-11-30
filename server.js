@@ -7,25 +7,32 @@ var user = require('./models/user');
 
 
 app.set('view engine', 'jade');
-
 app.use('/static', express.static('public'));
 
 io.on('connection', function (socket) {
+    
+    socket.on('disconnect', function () {
+        console.log('Usuario desconectado');
+    });
+
     user.show(function (data) {
         io.emit('listar', data);
     });
+
     socket.on('crear', function (data) {
         user.create(data, function (rpta) {
             io.emit('nuevo', rpta);
         });
     });
-    socket.on('actualizar', (data)=>{
-        user.update(data, (rpta)=>{
+    socket.on('actualizar', (data) => {
+        user.update(data, (rpta) => {
             io.emit('nuevo', rpta);
         });
     });
-    socket.on('disconnect', function () {
-        console.log('Usuario desconectado');
+    socket.on('eliminar', (data) => {
+        console.log("SOCKET.ON");
+        console.log(data);
+        
     });
 });
 
