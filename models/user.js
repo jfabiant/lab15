@@ -26,5 +26,14 @@ module.exports = {
         };
         var nuevo = new user_model(item).save();
         callback(item);
+    },
+    show: function (callback){
+        user_model.find({}, (err, items)=>{
+            if(!err){
+callback(JSON.stringify(items));
+            } else {
+return console.log(er);
+            }
+        })
     }
 };

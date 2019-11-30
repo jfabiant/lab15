@@ -12,6 +12,9 @@ app.use('/static', express.static('public'));
 
 
 io.on('connection', function (socket) {
+    user.show(function (data) {
+        io.emit('listar', data);
+    });
     socket.on('crear', function (data) {
         user.create(data, function (rpta) {
             io.emit('nuevo', rpta);
