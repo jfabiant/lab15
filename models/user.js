@@ -12,7 +12,7 @@ var user_schema = new Schema({
     profile_pic: String
 });
 
-user_model = mongoose.model('user', user_schema, 'users');
+let user_model = mongoose.model('user', user_schema, 'users');
 
 module.exports = {
     create: function (data, callback) {
@@ -27,13 +27,24 @@ module.exports = {
         var nuevo = new user_model(item).save();
         callback(item);
     },
-    show: function (callback){
-        user_model.find({}, (err, items)=>{
-            if(!err){
-callback(JSON.stringify(items));
+    show: function (callback) {
+        user_model.find({}, (err, items) => {
+            if (!err) {
+                callback(JSON.stringify(items));
             } else {
-return console.log(er);
+                return console.log(er);
             }
         })
+    },
+    update: (data, callback) => {
+        user_model.findOne({ _id: data._id }, (err, item) => {
+            item.first_name = data.first_name;
+            item.last_name = data.last_name;
+            item.timezone = data.timezone;
+            item.locale = data.locale;
+            item.profile_pic = data.profile_pic;
+            item.save();
+            callback(item);
+        });
     }
 };
